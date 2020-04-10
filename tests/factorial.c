@@ -70,7 +70,7 @@ int main()
 
   bignum_from_int(&num, 100);
   factorial(&num, &result);
-  bignum_to_string(&result, buf, sizeof(buf));
+  //bignum_to_string(&result, buf, sizeof(buf));
   printf("factorial(100) using bignum = %s\n", buf);
 
   return 0;

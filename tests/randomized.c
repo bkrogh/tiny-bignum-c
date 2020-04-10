@@ -32,9 +32,9 @@ int main(int argc, char** argv)
   bignum_init(&b);
   bignum_init(&c);
   bignum_init(&res);
-  bignum_from_string(&a, argv[2], strlen(argv[2]));
-  bignum_from_string(&b, argv[3], strlen(argv[3]));
-  bignum_from_string(&c, argv[4], strlen(argv[4]));
+  /* bignum_from_string(&a, argv[2], strlen(argv[2])); */
+  /* bignum_from_string(&b, argv[3], strlen(argv[3])); */
+  /* bignum_from_string(&c, argv[4], strlen(argv[4])); */
 
   struct bn a_before, b_before;
   bignum_assign(&a_before, &a);
@@ -73,11 +73,11 @@ int main(int argc, char** argv)
   if (!cmp_result)
   {
     char buf[8192];
-    bignum_to_string(&res, buf, sizeof(buf));
+    /* bignum_to_string(&res, buf, sizeof(buf)); */
     printf("\ngot %s\n", buf);
-    printf(" a  = %d \n", bignum_to_int(&a));
-    printf(" b  = %d \n", bignum_to_int(&b));
-    printf("res = %d \n", bignum_to_int(&res));
+    /* printf(" a  = %x \n", bignum_to_int(&a)); */
+    /* printf(" b  = %d \n", bignum_to_int(&b)); */
+    /* printf("res = %d \n", bignum_to_int(&res)); */
     printf("\n");
     return 1;
   }

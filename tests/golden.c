@@ -190,7 +190,7 @@ int main()
   struct bn sa, sb, sc, sd;
   uint32_t ia, ib, ic;
   char op;
-  char buf[8192];
+  /* char buf[8192]; */
   int npassed = 0;
   int test_passed;
 
@@ -253,15 +253,15 @@ int main()
     }
     else
     {
-      bignum_to_string(&sa, buf, sizeof(buf));
-      printf("    a = %s \n", buf);
-      bignum_to_string(&sb, buf, sizeof(buf));
-      printf("    b = %s \n", buf);
-      bignum_to_string(&sc, buf, sizeof(buf));
-      printf("    c = %s \n", buf);
-      bignum_to_string(&sd, buf, sizeof(buf));
-      printf("    d = %s \n", buf);
-      printf("\n");
+      /* bignum_to_string(&sa, buf, sizeof(buf)); */
+      /* printf("    a = %s \n", buf); */
+      /* bignum_to_string(&sb, buf, sizeof(buf)); */
+      /* printf("    b = %s \n", buf); */
+      /* bignum_to_string(&sc, buf, sizeof(buf)); */
+      /* printf("    c = %s \n", buf); */
+      /* bignum_to_string(&sd, buf, sizeof(buf)); */
+      /* printf("    d = %s \n", buf); */
+      /* printf("\n"); */
     }
   }
 

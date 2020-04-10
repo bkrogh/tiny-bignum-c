@@ -81,7 +81,7 @@ DTYPE_TMP bignum_to_int(struct bn* n)
 {
   require(n, "n is null");
 
-  int ret = 0;
+  DTYPE_TMP ret = 0;
 
   /* Endianness issue if machine is not little-endian? */
 #if (WORD_SIZE == 1)
@@ -95,9 +95,9 @@ DTYPE_TMP bignum_to_int(struct bn* n)
 #elif (WORD_SIZE == 4)
   ret += n->array[0];
 #elif (WORD_SIZE == 8)
+  ret += ((DTYPE_TMP)n->array[1]) << WORD_SIZE * 8;
   ret += n->array[0];
 #endif
-
   return ret;
 }
 
@@ -221,6 +221,7 @@ void bignum_mul_int(struct bn* a, DTYPE b) {
     int i;
     DTYPE_TMP tmp;
     DTYPE_TMP carry = 0;
+
     for (i = 0; i < BN_ARRAY_SIZE; ++i) {
         tmp = a->array[i];
         tmp *= b;
