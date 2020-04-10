@@ -26,7 +26,7 @@ There may well be room for performance-optimizations and improvements.
 
 /* This macro defines the word size in bytes of the array that constitues the big-number data structure. */
 #ifndef WORD_SIZE
-  #define WORD_SIZE 4
+  #define WORD_SIZE 8
 #endif
 
 /* Size of big-numbers in bytes */
@@ -63,6 +63,13 @@ There may well be room for performance-optimizations and improvements.
   #define SPRINTF_FORMAT_STR       "%.08x"
   #define SSCANF_FORMAT_STR        "%8x"
   #define MAX_VAL                  ((DTYPE_TMP)0xFFFFFFFF)
+#elif (WORD_SIZE == 8)
+  #define DTYPE                    uint64_t
+  #define DTYPE_TMP                unsigned __int128
+  #define DTYPE_MSB                ((DTYPE_TMP)(0x8000000000000000))
+  #define SPRINTF_FORMAT_STR       "%.08x"
+  #define SSCANF_FORMAT_STR        "%8x"
+  #define MAX_VAL                  ((DTYPE_TMP) 0xFFFFFFFFFFFFFFFF)
 #endif
 #ifndef DTYPE
   #error DTYPE must be defined to uint8_t, uint16_t uint32_t or whatever

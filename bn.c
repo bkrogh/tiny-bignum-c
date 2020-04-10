@@ -67,12 +67,17 @@ void bignum_from_int(struct bn* n, DTYPE_TMP i)
   DTYPE_TMP num_32 = 32;
   DTYPE_TMP tmp = i >> num_32; /* bit-shift with U64 operands to force 64-bit results */
   n->array[1] = tmp;
+ #elif (WORD_SIZE == 8)
+  n->array[0] = i;
+  DTYPE_TMP num_64 = 64;
+  DTYPE_TMP tmp = i >> num_64; /* bit-shift with U64 operands to force 64-bit results */
+  n->array[1] = tmp;
  #endif
 #endif
 }
 
 
-int bignum_to_int(struct bn* n)
+DTYPE_TMP bignum_to_int(struct bn* n)
 {
   require(n, "n is null");
 
@@ -89,74 +94,12 @@ int bignum_to_int(struct bn* n)
   ret += n->array[1] << 16;
 #elif (WORD_SIZE == 4)
   ret += n->array[0];
+#elif (WORD_SIZE == 8)
+  ret += n->array[0];
 #endif
 
   return ret;
 }
-
-
-void bignum_from_string(struct bn* n, char* str, int nbytes)
-{
-  require(n, "n is null");
-  require(str, "str is null");
-  require(nbytes > 0, "nbytes must be positive");
-  require((nbytes & 1) == 0, "string format must be in hex -> equal number of bytes");
-  require((nbytes % (sizeof(DTYPE) * 2)) == 0, "string length must be a multiple of (sizeof(DTYPE) * 2) characters");
-  
-  bignum_init(n);
-
-  DTYPE tmp;                        /* DTYPE is defined in bn.h - uint{8,16,32,64}_t */
-  int i = nbytes - (2 * WORD_SIZE); /* index into string */
-  int j = 0;                        /* index into array */
-
-  /* reading last hex-byte "MSB" from string first -> big endian */
-  /* MSB ~= most significant byte / block ? :) */
-  while (i >= 0)
-  {
-    tmp = 0;
-    sscanf(&str[i], SSCANF_FORMAT_STR, &tmp);
-    n->array[j] = tmp;
-    i -= (2 * WORD_SIZE); /* step WORD_SIZE hex-byte(s) back in the string. */
-    j += 1;               /* step one element forward in the array. */
-  }
-}
-
-
-void bignum_to_string(struct bn* n, char* str, int nbytes)
-{
-  require(n, "n is null");
-  require(str, "str is null");
-  require(nbytes > 0, "nbytes must be positive");
-  require((nbytes & 1) == 0, "string format must be in hex -> equal number of bytes");
-
-  int j = BN_ARRAY_SIZE - 1; /* index into array - reading "MSB" first -> big-endian */
-  int i = 0;                 /* index into string representation. */
-
-  /* reading last array-element "MSB" first -> big endian */
-  while ((j >= 0) && (nbytes > (i + 1)))
-  {
-    sprintf(&str[i], SPRINTF_FORMAT_STR, n->array[j]);
-    i += (2 * WORD_SIZE); /* step WORD_SIZE hex-byte(s) forward in the string. */
-    j -= 1;               /* step one element back in the array. */
-  }
-
-  /* Count leading zeros: */
-  j = 0;
-  while (str[j] == '0')
-  {
-    j += 1;
-  }
- 
-  /* Move string j places ahead, effectively skipping leading zeros */ 
-  for (i = 0; i < (nbytes - j); ++i)
-  {
-    str[i] = str[i + j];
-  }
-
-  /* Zero-terminate string */
-  str[i] = 0;
-}
-
 
 void bignum_dec(struct bn* n)
 {
