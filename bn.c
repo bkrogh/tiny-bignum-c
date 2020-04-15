@@ -222,7 +222,21 @@ void bignum_mul_int(struct bn* a, DTYPE b) {
     DTYPE_TMP tmp;
     DTYPE_TMP carry = 0;
 
+    int high_word = 0;
     for (i = 0; i < BN_ARRAY_SIZE; ++i) {
+        tmp = a->array[i];
+        if (tmp > 0) {
+            high_word = i;
+        }
+    }
+   
+    high_word += 2; // Ensure that we have room for overflow, adding 1 is *not* enough
+    
+    if (high_word > BN_ARRAY_SIZE) {
+        high_word = BN_ARRAY_SIZE;
+    }
+    
+    for (i = 0; i < high_word; ++i) {
         tmp = a->array[i];
         tmp *= b;
         tmp += carry;
