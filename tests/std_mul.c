@@ -18,7 +18,7 @@ void multiplyTest(void) {
 }
 
 int main() {
-  printf("\n%d/%d tests successful.\n", npassed, ntests);
+  printf("\nbignum_mul perf test\n");
   printf("\n");
 
   for (int i = 0; i < 10000; i++) {
