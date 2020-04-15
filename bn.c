@@ -230,7 +230,7 @@ void bignum_mul_int(struct bn* a, DTYPE b) {
         }
     }
    
-    high_word += 2; // Ensure that we have room for overflow, adding 1 is *not* enough
+    high_word += 2; // Ensure that we have room for overflow, adding 1 is *not* enough, because we use < comparison in loop
     
     if (high_word > BN_ARRAY_SIZE) {
         high_word = BN_ARRAY_SIZE;
